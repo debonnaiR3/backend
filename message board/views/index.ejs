@@ -1,0 +1,64 @@
+<html>
+    <head>
+
+        <title>
+            <%= title%>
+        </title>
+    <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <div class="messages">
+
+            <%messages.forEach((message,ind)=>{%>
+                <%if(ind%2!=0){%>
+                    <div class="m1">
+
+                        <p><%=message.user%></p>
+                        <p><%= message.text%></p>
+                    
+                    </div>
+                <%}else{%>
+                    <div class="m2">
+
+                        <p><%=message.user%></p>
+                        <p><%= message.text%></p>
+                    
+                    </div>
+                <%}%>
+                
+            <%})%>
+        </div>
+        <button class="newMessage">New Message</button>
+        <div class="modal-overlay">
+            <div class="modal-content"></div>
+        </div>
+        <script>
+            const newMsgBtn = document.querySelector('.newMessage');
+            const modalOverlay = document.querySelector('.modal-overlay');
+            const modalContent = document.querySelector('.modal-content');
+
+            newMsgBtn.addEventListener('click', () => {
+                
+                modalOverlay.style.display = 'flex';
+
+                
+                fetch('./form')
+                    .then(res => res.text())
+                    .then((body) => {
+                        modalContent.innerHTML = body;
+                    })
+                    .catch(err => { console.error('Error fetching form!', err) });
+            });
+
+            
+            modalOverlay.addEventListener('click', (event) => {
+               
+                if (event.target === modalOverlay) {
+                    modalOverlay.style.display = 'none';
+                }
+            });
+        </script>
+
+    </body>
+
+</html>
